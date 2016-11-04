@@ -23,7 +23,7 @@ class S3_Uploads {
 				defined( 'S3_UPLOADS_SECRET' ) ? S3_UPLOADS_SECRET : null,
 				defined( 'S3_UPLOADS_BUCKET_URL' ) ? S3_UPLOADS_BUCKET_URL : null,
 				S3_UPLOADS_REGION,
-				defined( 'S3_UPLOADS_PREFIX_PATH' ) ? S3_UPLOADS_PREFIX_PATH : null,
+				defined( 'S3_UPLOADS_PREFIX_PATH' ) ? S3_UPLOADS_PREFIX_PATH : null
 			);
 		}
 
