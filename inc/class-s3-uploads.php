@@ -136,7 +136,6 @@ class S3_Uploads {
 		}
 	}
 
-
 	/**
 	 * Get the S3 bucket name
 	 *
