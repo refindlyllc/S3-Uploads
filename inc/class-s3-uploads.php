@@ -135,6 +135,7 @@ class S3_Uploads {
 			return apply_filters( 's3_uploads_bucket_url', 'https://' . $bucket . '.s3.amazonaws.com' . $path_prefix . $path );
 		}
 	}
+	
 
 	/**
 	 * Get the S3 bucket name
