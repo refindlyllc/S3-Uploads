@@ -128,8 +128,12 @@ class S3_Uploads {
 		$path_prefix = strtok( $this->prefix_path, '/');
 		$path   = substr( $this->bucket, strlen( $bucket ) );
 
-
-		return apply_filters( 's3_uploads_bucket_url', 'https://' . $bucket . '.s3.amazonaws.com' . $path_prefix . $path );
+		if ( ! defined( 'S3_UPLOADS_PREFIX_PATH' ) || ! S3_UPLOADS_PREFIX_PATH ) {
+			return apply_filters('s3_uploads_bucket_url', 'https://' . $bucket . '.s3.amazonaws.com' . $path);
+		}
+		else {
+			return apply_filters( 's3_uploads_bucket_url', 'https://' . $bucket . '.s3.amazonaws.com' . $path_prefix . $path );
+		}
 	}
 
 	/**
