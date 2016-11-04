@@ -125,7 +125,7 @@ class S3_Uploads {
 		}
 
 		$bucket = strtok( $this->bucket, '/' );
-		$path_prefix = strtok( $this->prefix_path, '/');
+		$path_prefix = $this->prefix_path;
 		$path   = substr( $this->bucket, strlen( $bucket ) );
 
 		if ( ! defined( 'S3_UPLOADS_PREFIX_PATH' ) || ! S3_UPLOADS_PREFIX_PATH ) {
