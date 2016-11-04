@@ -41,4 +41,8 @@ if ( getenv( 'S3_UPLOADS_REGION' ) ) {
 	define( 'S3_UPLOADS_REGION', getenv( 'S3_UPLOADS_REGION' ) );
 }
 
+if ( getenv( 'S3_UPLOADS_PREFIX_PATH' ) ) {
+	define( 'S3_UPLOADS_PREFIX_PATH', getenv( 'S3_UPLOADS_PREFIX_PATH' ) );
+}
+
 require $test_root . '/includes/bootstrap.php';
