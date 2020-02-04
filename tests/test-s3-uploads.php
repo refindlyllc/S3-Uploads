@@ -94,6 +94,23 @@ class Test_S3_Uploads extends WP_UnitTestCase {
 		$this->assertTrue( file_exists( $wp_upload_dir['path'] . '/sunflower-150x150.jpg' ) );
 	}
 
+	public function test_generate_attachment_metadata_for_mp4() {
+		S3_Uploads::get_instance()->setup();
+		$upload_dir = wp_upload_dir();
+		copy( dirname( __FILE__ ) . '/data/video.m4v', $upload_dir['path'] . '/video.m4v' );
+		$test_file = $upload_dir['path'] . '/video.m4v';
+		$attachment_id = $this->factory->attachment->create_object( $test_file, 0, array(
+			'post_mime_type' => 'video/mp4',
+			'post_excerpt'   => 'A sample caption',
+		) );
+
+		$meta_data = wp_generate_attachment_metadata( $attachment_id, $test_file );
+		$this->assertEquals( 'video/mp4', $meta_data['mime_type'] );
+		$this->assertEquals( 'quicktime', $meta_data['dataformat'] );
+		$this->assertEquals( 320, $meta_data['width'] );
+		$this->assertEquals( 240, $meta_data['height'] );
+	}
+
 	public function test_image_sizes_are_deleted_on_attachment_delete() {
 		S3_Uploads::get_instance()->setup();
 		$upload_dir = wp_upload_dir();
@@ -114,6 +131,30 @@ class Test_S3_Uploads extends WP_UnitTestCase {
 		foreach ( $meta_data['sizes'] as $size ) {
 			$this->assertFalse( file_exists( $upload_dir['path'] . '/' . $size['file'] ), sprintf( 'File %s was not deleted.', $upload_dir['path'] . '/' . $size['file'] ) );
 		}
+	}
+
+	public function test_generate_attachment_metadata_for_pdf() {
+		S3_Uploads::get_instance()->setup();
+		$upload_dir = wp_upload_dir();
+		copy( dirname( __FILE__ ) . '/data/gdpr.pdf', $upload_dir['path'] . '/gdpr.pdf' );
+		$test_file = $upload_dir['path'] . '/gdpr.pdf';
+		$attachment_id = $this->factory->attachment->create_object( $test_file, 0, array(
+			'post_mime_type' => 'application/pdf',
+			'post_excerpt'   => 'A sample caption',
+		) );
+
+		$meta_data = wp_generate_attachment_metadata( $attachment_id, $test_file );
+
+		$this->assertEquals( array(
+			'file'      => 'gdpr-pdf-106x150.jpg',
+			'width'     => 106,
+			'height'    => 150,
+			'mime-type' => 'image/jpeg',
+		), $meta_data['sizes']['thumbnail'] );
+
+
+		$wp_upload_dir = wp_upload_dir();
+		$this->assertTrue( file_exists( $wp_upload_dir['path'] . '/gdpr-pdf-106x150.jpg' ) );
 	}
 
 	function test_get_s3_bucket_location() {
